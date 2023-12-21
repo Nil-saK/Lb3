@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sliding page</title>
+  <style>
+    #slideshow {
+      width: 50%; 
+      height: 50%; 
+    }
+
+    table {
+            border-collapse: collapse;
+            width: 50%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: center;
+        }
+  </style>
+</head>
+<body>
+
+
+
+  <h1>Image Slideshow</h1>
+<img id="slideshow" src="Рисунки/image--1.jpg" alt="Image 1">
+<br>
+<button id="changeInterval">Змінити інтервал (в секундах)</button>
+<button id="stopButton">Зупинити слайд-шоу</button>
+
+<script>
+    let images = ["Рисунки/image--1.jpg", "Рисунки/image--2.jpg", "Рисунки/image--3.jpg","Рисунки/image--4.jpg","Рисунки/image--5.jpg","Рисунки/image--6.jpg","Рисунки/image--7.jpg","Рисунки/image--8.jpg","Рисунки/image--9.jpg","Рисунки/image--10.jpg"];
+    let currentIndex = 0;
+    let slideshowInterval;
+
+    function startSlideshow(intervalInSeconds) {
+        clearInterval(slideshowInterval);
+        slideshowInterval = setInterval(changeImage, intervalInSeconds * 1000);
+    }
+
+    function changeImage() {
+        const slideshow = document.getElementById("slideshow");
+        currentIndex = (currentIndex + 1) % images.length;
+        slideshow.src = images[currentIndex];
+        slideshow.alt = `Image ${currentIndex + 1}`;
+    }
+
+    document.getElementById("changeInterval").addEventListener("click", () => {
+        const intervalInput = prompt("Змінити інтервал (в секундах):");
+        if (intervalInput !== null) {
+            startSlideshow(parseInt(intervalInput));
+        }
+    });
+
+    document.getElementById("stopButton").addEventListener("click", () => clearInterval(slideshowInterval));
+
+    startSlideshow(3); // Початок послідовності був сформований з інтервалом за замовчуванням
+</script>
+
+
+
+<h2>Таблиця</h2>
+<label for="min">Мінімальне значення: </label>
+<input type="number" id="min" min="0">
+<label for="max">Максимальне значення: </label>
+<input type="number" id="max" min="1">
+<button id="generate">Згенерувати таблицю</button>
+
+<table id="randomTable" style="width: 300px; height: 300px;">
+    <tbody>
+        <!-- Тіло таблиці заповнюватиметься динамічно -->
+    </tbody>
+</table>
+
+<script>
+    function getRandomInteger(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateTable() {
+        const min = parseInt(document.getElementById('min').value);
+        const max = parseInt(document.getElementById('max').value);
+
+        const tableBody = document.querySelector('#randomTable tbody');
+        tableBody.innerHTML = ''; // Очистити попередній вміст таблиці
+
+        for (let i = 1; i <= 10; i++) {
+            const row = document.createElement('tr');
+            for (let j = 1; j <= 10; j++) {
+                const randomNumber = getRandomInteger(min, max);
+                const cell = document.createElement('td');
+                cell.textContent = randomNumber;
+
+                // Определяем цвет фона для чередующихся ячеек
+                if ((i + j) % 2 === 0) {
+                    cell.style.backgroundColor = 'grey';
+                } else {
+                    cell.style.backgroundColor = 'pink';
+                }
+
+                row.appendChild(cell);
+            }
+            tableBody.appendChild(row);
+        }
+    }
+    document.getElementById('generate').addEventListener('click', generateTable);
+</script>
+
+
+<script>
+  var date = new Date();
+  var currentMinutes = date.getMinutes();
+  var body = document.body;
+
+  // Умови для зміни фону в залежності від хвилин
+  if (currentMinutes >= 0 && currentMinutes < 15) {
+    body.style.backgroundColor = "rgb(173, 216, 230)"; // Блакитний
+} else if (currentMinutes >= 15 && currentMinutes < 30) {
+    body.style.backgroundColor = "rgb(0, 128, 128)"; // Темно-зелений
+} else if (currentMinutes >= 30 && currentMinutes < 45) {
+    body.style.backgroundColor = "rgb(193, 255, 205)"; // Блідо-зелений
+} else {
+    body.style.backgroundColor = "rgb(238, 232, 170)"; // Світло-бежевий
+}
+
+
+</script>
+
+
+</body>
+</html>
